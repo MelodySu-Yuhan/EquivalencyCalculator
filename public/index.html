@@ -1,0 +1,226 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>calculator</title>
+    <!--roundbox.css-->
+    <style>
+        @media print {
+            body * { visibility: hidden; }
+            #output * { visibility: visible; }
+            #output { position: absolute; top: 0px; left: 0px; }
+        }
+
+
+        body { font-family: Tahoma, Geneva, Verdana, sans-serif; }
+
+
+        .roundbox { position: relative; height: 180px; width: 220px; float: left; margin-left: 10px; margin-right: 15px; margin-top: 10px; margin-bottom: 15px; border: 1px solid #D1D1D1; border-radius: 20px; }
+
+        .rounboxIcon { position: absolute; left: 0px; top: 0; bottom: 0; margin: auto; max-width: 40%; }
+
+        .roundboxDescr { position: absolute; left: 50%; right: 5px; top: 45px; color: #797979; font-size: 14px !important; font-family: Verdana, Geneva, sans-serif; }
+
+        .roundboxOutfield { font-family: Arial, Helvetica, sans-serif; color: #47aa42; font-size: 22px; font-weight: 600; text-align: right; border: none; box-shadow: none; position: absolute; background: transparent; right: 10px; top: 5px; }
+
+        .emissType { clear: both; font-size: 18px !important; font-weight: bold; margin-bottom: 0px !important; margin-left: 0; margin-top: 10px; }
+
+        .i-icon { position: absolute; left: 8px; top: 8px; z-index: 1; }
+
+        .calculate { box-shadow: 1px 1px 0px 0px #FFFFFF inset; width: 179px; height: 42px; font-family: Verdana, Geneva, sans-serif; font-weight: bold; color: white; text-shadow: 1px 1px #3a7937; font-size: 18px; border: 1px solid #24891e; border-radius: 10px; background-image: url('calculator_resources/calcGrad.gif'); background-repeat: repeat-x; /* IE10 Consumer Preview */ background-image: -ms-linear-gradient(top, #81DA7D 0%, #47AB41 100%); /* Mozilla Firefox */ background-image: -moz-linear-gradient(top, #81DA7D 0%, #47AB41 100%); /* Opera */ background-image: -o-linear-gradient(top, #81DA7D 0%, #47AB41 100%); /* Webkit (Safari/Chrome 10) */ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #81DA7D), color-stop(1, #47AB41)); /* Webkit (Chrome 11+) */ background-image: -webkit-linear-gradient(top, #81DA7D 0%, #47AB41 100%); /* W3C Markup, IE10 Release Preview */ background-image: linear-gradient(to bottom, #81DA7D 0%, #47AB41 100%); }
+
+        .calculate:hover { box-shadow: 1px 1px 0px 0px #FFFFFF inset; width: 179px; height: 42px; font-family: Verdana, Geneva, sans-serif; font-weight: bold; color: white; font-size: 18px; border: 2px solid #24891e; border-radius: 10px; /* IE10 Consumer Preview */ background-image: -ms-linear-gradient(top, #81DA7D 0%, #47AB41 100%); /* Mozilla Firefox */ background-image: -moz-linear-gradient(top, #81DA7D 0%, #47AB41 100%); /* Opera */ background-image: -o-linear-gradient(top, #81DA7D 0%, #47AB41 100%); /* Webkit (Safari/Chrome 10) */ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #81DA7D), color-stop(1, #47AB41)); /* Webkit (Chrome 11+) */ background-image: -webkit-linear-gradient(top, #81DA7D 0%, #47AB41 100%); /* W3C Markup, IE10 Release Preview */ background-image: linear-gradient(to bottom, #81DA7D 0%, #47AB41 100%); }
+
+        .calculate:active { box-shadow: 1px 1px 0px 0px #FFFFFF inset; width: 179px; height: 42px; font-family: Verdana, Geneva, sans-serif; font-weight: bold; color: white; font-size: 18px; border: 1px solid #FFFFFF; border-radius: 10px; /* IE10 Consumer Preview */ background-image: -ms-linear-gradient(top, #47AB41 0%, #81DA7D 100%); /* Mozilla Firefox */ background-image: -moz-linear-gradient(top, #47AB41 0%, #81DA7D 100%); /* Opera */ background-image: -o-linear-gradient(top, #47AB41 0%, #81DA7D 100%); /* Webkit (Safari/Chrome 10) */ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #47AB41), color-stop(1, #47AB4181DA7D)); /* Webkit (Chrome 11+) */ background-image: -webkit-linear-gradient(top, #47AB41 0%, #81DA7D 100%); /* W3C Markup, IE10 Release Preview */ background-image: linear-gradient(to bottom, #47AB41 0%, #81DA7D 100%); }
+
+        /* this is supposed to contain the select in a div.  the div is supposed to cut the
+        ugly arrow off of the select so it can be replaced.  haven't gotten this to work.*/
+        .styled-select2 { float: left; position: relative; margin-left: 10px; bottom: 2px; width: 230px; height: 25px; overflow: hidden; border-radius: 5px; border: 1px #b4b4b4 solid; }
+
+        /*this should be .styled-select select { ... } if the above rule worked.  the width
+        would be larger than the div above, 250px */
+        .styled-select { width: 150px; height: 25px; font-size: 13px; font-family: Verdana, Geneva, sans-serif; border: 1px #b4b4b4 solid; border-radius: 5px; background-image: url('calculator_resources/selectGrad.gif'); background-repeat: repeat-x; /* IE10 Consumer Preview */ background-image: -ms-linear-gradient(top, #FBFBFB 0%, #D7D5D9 100%); /* Mozilla Firefox */ background-image: -moz-linear-gradient(top, #FBFBFB 0%, #D7D5D9 100%); /* Opera */ background-image: -o-linear-gradient(top, #FBFBFB 0%, #D7D5D9 100%); /* Webkit (Safari/Chrome 10) */ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FBFBFB), color-stop(1, #D7D5D9)); /* Webkit (Chrome 11+) */ background-image: -webkit-linear-gradient(top, #FBFBFB 0%, #D7D5D9 100%); /* W3C Markup, IE10 Release Preview */ background-image: linear-gradient(to bottom, #FBFBFB 0%, #D7D5D9 100%); }
+
+        .styled-or { font-family: Verdana, Geneva, sans-serif; color: #777; font-size: 10px; font-style: italic; font-weight: bold; position: absolute; left: 100%; top: 0; bottom: 0; margin: auto; display: block; width: 85px; height: 0px; margin-left: 3px; }
+    </style>
+</head>
+<body>
+    <noscript>
+        <strong>We're sorry but calculator doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <div id="energy">
+        <form id="starting_points" action="#">
+            <p style="margin:0;">
+
+                <input id="starting-input" type="text" maxlength="13" size="15" name="equivalency" style="float:left;font-size:22px;" />
+                <select id="equiv-type" name="equiv_type" class="styled-select" style="position:relative; top:2px; left:15px; width:215px; font-weight:bold;">
+                    <option value="" selected="selected"> - choose a unit - </option>
+                    <option value="gasoline">gallons of gasoline</option>
+                    <option value="kilowatthours">kilowatt-hours of electricity</option>
+                    <option value="MCF">MCF of natural gas</option>
+                </select>
+
+                <br />
+                <br />
+                <input type="submit" value="Calculate" class="calculate" />
+                <br />
+                <br />
+                <span style="display:none;"><a target="_top" href="https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references"><strong>?</strong> Click Here for Calculations and References</a></span>
+            </p>
+            <!--- ATTENTION: do not delete the paragraph below, it is needed for the javascript to work properly -->
+        </form>
+
+        <form id="output_table1"></form>
+
+    </div>
+    <div id="output" style="display:none;">
+        <!--div id="output"-->
+        <hr />
+
+        <h3><a name="results" id="results"></a>Equivalency Results <span style="font-size:14px; font-weight:normal; margin-left:2em;"><a target="_top" href="https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references"></a></span></h3>
+        <div style="float:left; width:45%; margin: 1em 0em; margin-right:5%;">
+            The sum of the greenhouse gas emissions you entered above is of Carbon Dioxide Equivalent.  This is equivalent to (in metric tons):
+        </div>
+        <div style="float:right; width:50%; margin: 1em 0em;">
+            <input type="text" id="y0" size="10" class="output_field" style="border:none; font-weight:bold; text-align:right;" />
+            <select name="resultUnits" class="styled-select" style="font-weight:bold;">
+                <!-- <option value="0">Tons</option>
+                <option value="1">Pounds</option> -->
+                <option value="2" selected="selected">Metric Tons</option>
+                <!-- <option value="3">Kilograms</option> -->
+
+            </select>
+        </div>
+
+        <p class="emissType">Greenhouse gas emissions from</p>
+        <div class="roundbox">
+
+            <img alt="" src="calculator_resources/vehicles.gif" class="rounboxIcon" />
+            <a target="_top" href="https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references#vehicles"><img src="calculator_resources/i-icon.gif" alt="" class="i-icon" /></a>
+            <input type="text" id="y1" size="10" class="roundboxOutfield" readonly="readonly" />
+            <p class="roundboxDescr">Passenger vehicles driven for one year</p>
+            <p class="styled-or">-or-</p>
+        </div>
+
+        <div class="roundbox">
+
+            <img alt="" src="calculator_resources/vehicles.gif" class="rounboxIcon" />
+            <a target="_top" href="https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references#miles"><img src="calculator_resources/i-icon.gif" alt="" class="i-icon" /></a>
+            <input type="text" id="y15" size="10" class="roundboxOutfield" readonly="readonly" />
+            <p class="roundboxDescr">Miles driven by an average passenger vehicle</p>
+        </div>
+
+
+        <p class="emissType">CO<sub>2</sub> emissions from</p>
+        <div class="roundbox">
+
+            <img alt="" src="calculator_resources/gasoline.gif" class="rounboxIcon" />
+            <a target="_top" href="https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references#gasoline"><img src="calculator_resources/i-icon.gif" alt="" class="i-icon" /></a>
+            <input type="text" id="y3" size="10" class="roundboxOutfield" readonly="readonly" />
+            <p class="roundboxDescr">gallons of gasoline consumed</p>
+            <p class="styled-or">-or-</p>
+        </div>
+
+        <div class="roundbox">
+
+            <img alt="" src="calculator_resources/gasoline.gif" class="rounboxIcon" />
+            <a target="_top" href="https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references#diesel"><img src="calculator_resources/i-icon.gif" alt="" class="i-icon" /></a>
+            <input type="text" id="y19" size="10" class="roundboxOutfield" readonly="readonly" />
+            <p class="roundboxDescr">gallons of diesel consumed</p>
+            <p class="styled-or">-or-</p>
+        </div>
+
+        <div class="roundbox">
+
+            <img alt="" src="calculator_resources/tankers.gif" class="rounboxIcon" />
+            <a target="_top" href="https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references#tankers"><img src="calculator_resources/i-icon.gif" alt="" class="i-icon" /></a>
+            <input type="text" id="y5" size="10" class="roundboxOutfield" readonly="readonly" />
+            <p class="roundboxDescr">tanker trucks' worth of gasoline</p>
+            <p class="styled-or">-or-</p>
+        </div>
+
+        <div class="roundbox">
+
+            <img alt="" src="calculator_resources/houseenergy.gif" class="rounboxIcon" />
+            <a target="_top" href="https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references#houseenergy"><img src="calculator_resources/i-icon.gif" alt="" class="i-icon" /></a>
+            <input type="text" id="y2" size="10" class="roundboxOutfield" readonly="readonly" />
+            <p class="roundboxDescr">homes' energy use for one year</p>
+            <p class="styled-or">-or-</p>
+        </div>
+
+        <div class="roundbox">
+
+            <img alt="" src="calculator_resources/houseelec.gif" class="rounboxIcon" />
+            <a target="_top" href="https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references#houseelec"><img src="calculator_resources/i-icon.gif" alt="" class="i-icon" /></a>
+            <input type="text" id="y6" size="10" class="roundboxOutfield" readonly="readonly" />
+            <p class="roundboxDescr">homes' electricity use for one year</p>
+            <p class="styled-or">-or-</p>
+        </div>
+
+        <div class="roundbox">
+
+            <img alt="" src="calculator_resources/oil.gif" class="rounboxIcon" />
+            <a target="_top" href="https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references#oil"><img src="calculator_resources/i-icon.gif" alt="" class="i-icon" /></a>
+            <input type="text" id="y4" size="10" class="roundboxOutfield" readonly="readonly" />
+            <p class="roundboxDescr">barrels of oil consumed</p>
+            <p class="styled-or">-or-</p>
+        </div>
+
+        <div class="roundbox">
+
+            <img alt="" src="calculator_resources/mobile-phone.png" class="rounboxIcon" />
+            <a target="_top" href="https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references#smartphones"><img src="calculator_resources/i-icon.gif" alt="" class="i-icon" /></a>
+            <input type="text" id="y21" size="10" class="roundboxOutfield" readonly="readonly" />
+            <p class="roundboxDescr">number of smartphones charged</p>
+        </div>
+
+
+        <p class="emissType">Greenhouse gas emissions avoided by</p>
+
+        <div class="roundbox">
+
+            <img alt="" src="calculator_resources/recycle.gif" class="rounboxIcon" />
+            <a target="_top" href="https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references#recycle"><img src="calculator_resources/i-icon.gif" alt="" class="i-icon" /></a>
+            <input type="text" id="y12" size="10" class="roundboxOutfield" readonly="readonly" />
+            <p class="roundboxDescr">Tons of waste recycled instead of landfilled</p>
+            <p class="styled-or">-or-</p>
+        </div>
+
+        <div class="roundbox">
+
+            <img alt="" src="calculator_resources/recycle.gif" class="rounboxIcon" />
+            <a target="_top" href="https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references#gtrucks"><img src="calculator_resources/i-icon.gif" alt="" class="i-icon" /></a>
+            <input type="text" id="y16" size="10" class="roundboxOutfield" readonly="readonly" />
+            <p class="roundboxDescr">Garbage trucks of waste recycled instead of landfilled</p>
+            <p class="styled-or">-or-</p>
+        </div>
+
+
+        <p class="emissType">Carbon sequestered by</p>
+        <div class="roundbox">
+
+            <img alt="" src="calculator_resources/seedlings.gif" class="rounboxIcon" />
+            <a target="_top" href="https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references#seedlings"><img src="calculator_resources/i-icon.gif" alt="" class="i-icon" /></a>
+            <input type="text" id="y7" size="10" class="roundboxOutfield" readonly="readonly" />
+            <p class="roundboxDescr">tree seedlings grown for 10 years</p>
+            <p class="styled-or">-or-</p>
+        </div>
+
+        <div class="roundbox">
+
+            <img alt="" src="calculator_resources/pineforests.gif" class="rounboxIcon" />
+            <a target="_top" href="https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references#pineforests"><img src="calculator_resources/i-icon.gif" alt="" class="i-icon" /></a>
+            <input type="text" id="y8" size="10" class="roundboxOutfield" readonly="readonly" />
+            <p class="roundboxDescr">acres of U.S. forests in one year</p>
+            <p class="styled-or">-or-</p>
+        </div>
+
+        <p style="clear:both">&nbsp;</p><br />
+    </div>
+    <!-- built files will be auto injected -->
+</body>
+</html>
